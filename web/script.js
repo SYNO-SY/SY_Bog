@@ -6,6 +6,10 @@ window.addEventListener("message", function (event) {
   } else if (event.data.action === "update") {
     countdownElement.innerText = event.data.time;
   } else if (event.data.action === "hide") {
-    countdownElement.style.display = "none";
+    countdownElement.innerText = "FIGHT";
+    countdownElement.style.color = "red";
+    setTimeout(() => {
+      countdownElement.style.display = "none";
+    }, 5000);
   }
 });

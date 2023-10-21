@@ -2,6 +2,8 @@ ESX = exports["es_extended"]:getSharedObject()
 lib.locale()
 local BogStarted = false
 local zoneData = {}
+local Capturetime = 0 or nil
+local OuterZone, CaptureZone = nil, nil
 
 RegisterCommand('startzone', function()
     if not BogStarted then
@@ -55,15 +57,20 @@ function OpenMenu()
         local selectedZone = input[1]
         for _, zone in pairs(zoneData) do
             if selectedZone == zone.name then
-                CreateZone(zone)
-                startCaptureZone(zone)
+                TriggerServerEvent('SY_Bog:server:startOuterZone', zone)
             end
         end
     end
 end
 
+RegisterNetEvent('SY_Bog:client:startOuterZone')
+AddEventHandler('SY_Bog:client:startOuterZone', function(data)
+    CreateZone(data)
+    startCaptureZone(data)
+end)
+
 function CreateZone(data)
-    local OuterZone = lib.zones.poly({
+    OuterZone = lib.zones.poly({
         points = data.points,
         thickness = data.thickness,
         debug = true,
@@ -76,21 +83,23 @@ function Timer()
 end
 
 function startCaptureZone(data)
-    local CaptureZone = lib.zones.sphere({
+    Capturetime = data.capture_time
+    CaptureZone = lib.zones.sphere({
         name = data.name,
         coords = data.capturezone,
         radius = 4.0,
         debug = true,
         inside = inside,
         onEnter = onEnter,
-        onExit = onExit
+        onExit = onExit,
+        debugColour = { r = 254, g = 150, b = 52 }
     })
 end
 
 function inside(self)
     if IsControlJustPressed(0, 38) then
         if lib.progressBar({
-                duration = 180000,
+                duration = Capturetime * 60000,
                 label = 'capturing ' .. self.name,
                 useWhileDead = false,
                 canCancel = true,
@@ -110,7 +119,7 @@ function inside(self)
                 title = 'SY_Bog',
                 description = 'Failed to Capture the ' .. self.name,
                 position = 'top',
-                duration = '3500',
+                duration = 3500,
                 style = {
                     backgroundColor = '#141517',
                     color = '#C1C2C5',
@@ -146,13 +155,20 @@ end
 
 function GiveReward()
     RemoveZones()
-    print("rewarded")
 end
 
 function RemoveZones()
-    CaptureZone:remove()
-    OuterZone:remove()
+    TriggerServerEvent("SY_Bog:startCountdown", 0)
+    TriggerServerEvent('SY_Bog:server:removeOuterZone')
 end
+
+RegisterNetEvent('SY_Bog:client:removeOuterZone')
+AddEventHandler('SY_Bog:client:removeOuterZone', function()
+    if CaptureZone and OuterZone then
+        CaptureZone:remove()
+        OuterZone:remove()
+    end
+end)
 
 -- ████████╗██╗███╗   ███╗███████╗██████╗
 -- ╚══██╔══╝██║████╗ ████║██╔════╝██╔══██╗

@@ -1,11 +1,12 @@
 Config = {}
 
-Config.Timer = 70
+Config.Timer = 10 -- time in seconds
 
 Config.Zones = {
 
     ["eastv"] = {
         name = "East V",
+        capture_time = 3, -- in minutes
         capturezone = vec3(413.8, -1026.1, 29),
         points = {
             vec3(413.8, -1026.1, 29),
@@ -21,11 +22,12 @@ Config.Zones = {
             vec3(420.0, -1030.2, 29),
             vec3(409.8, -1028.4, 29),
         },
-        thickness = 2,
+        thickness = 30,
     },
 
     ["stabcity"] = {
         name = "Stab City",
+        capture_time = 1, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(97.498054504395, 3585.7998046875, 20),
@@ -42,6 +44,7 @@ Config.Zones = {
 
     ["sandy_plane_crash"] = {
         name = "Sandy Plane Crash",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(2445.0163574219, 3017.4104003906, 40),
@@ -56,6 +59,7 @@ Config.Zones = {
 
     ["noose_facility"] = {
         name = "Noose Facility",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(2537.0842285156, -431.39474487305, 40),
@@ -80,6 +84,7 @@ Config.Zones = {
 
     ["grapeseeed"] = {
         name = "Grapeseeed",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(2364.0061035156, 4786.4755859375, 40),
@@ -96,6 +101,7 @@ Config.Zones = {
 
     ["palato_procopio "] = {
         name = "Palato Procopio",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(42.158111572266, 7269.9008789062, 40),
@@ -111,6 +117,7 @@ Config.Zones = {
 
     ["fort_zancado"] = {
         name = "Fort Zancado",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(-1612.2427978516, 3209.6831054688, 40),
@@ -137,6 +144,7 @@ Config.Zones = {
 
     ["Rail_Yard "] = {
         name = "Rail Yard ",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(1166.3372802734, -2098.2897949219, 40),
@@ -161,6 +169,7 @@ Config.Zones = {
 
     ["village"] = {
         name = "village",
+        capture_time = 3, -- in minutes
         capturezone = vec3(52.0, 3675.0, 40.0),
         points = {
             vec3(2617.33984375, 3306.3195800781, 40),

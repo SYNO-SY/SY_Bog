@@ -1,3 +1,14 @@
+RegisterNetEvent('SY_Bog:server:startOuterZone')
+AddEventHandler('SY_Bog:server:startOuterZone', function(data)
+    TriggerClientEvent('SY_Bog:client:startOuterZone', -1, data)
+end)
+RegisterNetEvent('SY_Bog:server:removeOuterZone')
+AddEventHandler('SY_Bog:server:removeOuterZone', function()
+    TriggerClientEvent('SY_Bog:client:removeOuterZone', -1)
+end)
+
+
+
 -- ████████╗██╗███╗   ███╗███████╗██████╗
 -- ╚══██╔══╝██║████╗ ████║██╔════╝██╔══██╗
 --    ██║   ██║██╔████╔██║█████╗  ██████╔╝
