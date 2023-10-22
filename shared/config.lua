@@ -1,13 +1,18 @@
 Config = {}
 
-Config.Timer = 10 -- time in seconds
+Config.Timer = 10                                                  -- time in seconds
+Config.Respawn = true                                              -- if true then player will be spawned in the Config.Spawnlocation
+Config.Spawnlocation = { x = 93.6761, y = 3437.3171, z = 39.7003 } -- player will spawn when dead in the given location
+Config.DisplayKillfeed = true                                      -- if true killfeed will be shown
+Config.GangJobs = { "ambulance", "police" }                        -- List all jobs that are able to contest for Bog
+
 
 Config.Zones = {
 
     ["eastv"] = {
-        name = "East V",
-        capture_time = 3, -- in minutes
-        capturezone = vec3(413.8, -1026.1, 29),
+        name = "East V",                        -- name of the zone (any name is fine)
+        capture_time = 3,                       -- in minutes
+        capturezone = vec3(413.8, -1026.1, 29), -- location of the capturing zone, better give in the center of the zone
         points = {
             vec3(413.8, -1026.1, 29),
             vec3(411.6, -1023.1, 29),
@@ -21,8 +26,8 @@ Config.Zones = {
             vec3(424.7, -1023.5, 29),
             vec3(420.0, -1030.2, 29),
             vec3(409.8, -1028.4, 29),
-        },
-        thickness = 30,
+        },              -- vectors of the zone
+        thickness = 30, -- height of the zone
     },
 
     ["stabcity"] = {

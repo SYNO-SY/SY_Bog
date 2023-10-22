@@ -1,3 +1,5 @@
+ESX = exports["es_extended"]:getSharedObject()
+
 RegisterNetEvent('SY_Bog:server:startOuterZone')
 AddEventHandler('SY_Bog:server:startOuterZone', function(data)
     TriggerClientEvent('SY_Bog:client:startOuterZone', -1, data)
@@ -34,4 +36,34 @@ AddEventHandler("SY_Bog:startCountdown", function(time)
         countdownTime = 0
         TriggerClientEvent("SY_Bog:hideCountdown", -1)
     end)
+end)
+
+
+
+
+RegisterServerEvent('SY_Bog:onPlayerDead')
+AddEventHandler('SY_Bog:onPlayerDead', function(data)
+    local victim = ESX.GetPlayerFromId(source)
+    local killer = ESX.GetPlayerFromId(data.killerServerId) or victim
+    data.victim = victim.getName()
+    data.killerServerId = killer.getName()
+
+    if data.killedByPlayer then
+        TriggerClientEvent('SY_Bog:ShowKillfeed', -1, data)
+    end
+end)
+
+
+lib.callback.register('SY_Bog:server:getjobs', function()
+    local jobs = {}
+    local isaJob = false
+    jobs.input_table = {}
+    for _, v in pairs(Config.GangJobs) do
+        if v then
+            table.insert(jobs.input_table, { value = v })
+            isaJob = ESX.DoesJobExist(v, 0) or isaJob
+        end
+    end
+    jobs.isaJob = isaJob
+    return (jobs)
 end)

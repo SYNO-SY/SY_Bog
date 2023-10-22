@@ -1,3 +1,5 @@
 {
-	"cant_startzone": "Zone is already started, Please stop the started zone first!!!"
+	"cant_startzone": "Zone is already started, Please stop the started zone first!!!",
+	"no_job":"Job does not exist in DB",
+	"no_same_input": "Attacker and defender should be different"
 }

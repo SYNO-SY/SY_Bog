@@ -5,9 +5,31 @@ local zoneData = {}
 local Capturetime = 0 or nil
 local OuterZone, CaptureZone = nil, nil
 
+AddEventHandler('esx:onPlayerDeath', function(data)
+    data.victim = source
+    local victimcoords = data.victimCoords
+    local playerPed = data.victim
+    if BogStarted then
+        local isinsideZone = OuterZone:contains(vec3(victimcoords.x, victimcoords.y, victimcoords.z))
+        if isinsideZone then
+            PlayerKilledByPlayer(data, killerServerId, data.killerClientId, data.deathCause)
+            DoScreenFadeOut(800)
+            Wait(3000)
+            RespawnPed(playerPed, Config.Spawnlocation, 0.0)
+            Wait(100)
+            TriggerEvent('esx_ambulancejob:revive')
+            while not IsScreenFadedOut() do
+                Wait(50)
+            end
+            DoScreenFadeIn(5000)
+        else
+            return
+        end
+    end
+end)
+
 RegisterCommand('startzone', function()
     if not BogStarted then
-        BogStarted = true
         OpenMenu()
     else
         lib.notify({
@@ -43,28 +65,91 @@ function OpenMenu()
         table.insert(zoneNames, { value = v.name })
     end
 
-    local input = lib.inputDialog('Start Zone', {
-        {
-            type = 'select',
-            label = 'Select zone',
-            options = zoneNames,
-            description = 'Some input description',
-            required = true,
-        },
-    })
 
-    if input then
-        local selectedZone = input[1]
-        for _, zone in pairs(zoneData) do
-            if selectedZone == zone.name then
-                TriggerServerEvent('SY_Bog:server:startOuterZone', zone)
+    lib.callback('SY_Bog:server:getjobs', false, function(data)
+        if not data then return end
+        local jobs_table = data.input_table
+        if not data.isaJob then
+            lib.notify({
+                id = 'error_ontification',
+                title = 'SY_Bog',
+                description = locale('no_job'),
+                position = 'top',
+                duration = 3500,
+                style = {
+                    backgroundColor = '#141517',
+                    color = '#C1C2C5',
+                    ['.description'] = {
+                        color = '#909296'
+                    }
+                },
+                icon = 'xmark',
+                iconColor = '#C53030'
+            })
+            return
+        end
+
+        -- input
+        local input = lib.inputDialog('Start Zone', {
+            {
+                type = 'select',
+                label = 'Select zone',
+                options = zoneNames,
+                description = 'Some input description',
+                required = true,
+            },
+            {
+                type = 'select',
+                label = 'Select attacker',
+                options = jobs_table,
+                description = 'Select the attacker',
+                required = true,
+            },
+            {
+                type = 'select',
+                label = 'Select defender',
+                options = jobs_table,
+                description = 'Select the defender',
+                required = true,
+            },
+        })
+
+
+
+        if input then
+            local selectedZone = input[1]
+            if input[2] == input[3] then
+                lib.notify({
+                    id = 'error_ontification',
+                    title = 'SY_Bog',
+                    description = locale('no_same_input'),
+                    position = 'top',
+                    duration = 3500,
+                    style = {
+                        backgroundColor = '#141517',
+                        color = '#C1C2C5',
+                        ['.description'] = {
+                            color = '#909296'
+                        }
+                    },
+                    icon = 'xmark',
+                    iconColor = '#C53030'
+                })
+                return
+            end
+
+            for _, zone in pairs(zoneData) do
+                if selectedZone == zone.name then
+                    TriggerServerEvent('SY_Bog:server:startOuterZone', zone)
+                end
             end
         end
-    end
+    end)
 end
 
 RegisterNetEvent('SY_Bog:client:startOuterZone')
 AddEventHandler('SY_Bog:client:startOuterZone', function(data)
+    BogStarted = true
     CreateZone(data)
     startCaptureZone(data)
 end)
@@ -74,6 +159,7 @@ function CreateZone(data)
         points = data.points,
         thickness = data.thickness,
         debug = true,
+        -- inside = insideouterzone,
     })
     Timer()
 end
@@ -110,6 +196,7 @@ function inside(self)
                     dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@',
                     clip = 'machinic_loop_mechandplayer'
                 },
+
             })
         then
             GiveReward()
@@ -168,6 +255,40 @@ AddEventHandler('SY_Bog:client:removeOuterZone', function()
         CaptureZone:remove()
         OuterZone:remove()
     end
+end)
+
+function RespawnPed(ped, coords, heading)
+    SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false)
+    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
+    -- SetPlayerInvincible(ped, false)
+    -- ClearPedBloodDamage(ped)
+end
+
+function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
+    local weapon = ESX.GetWeaponFromHash(deathCause)
+    local data = {
+        killedByPlayer = true,
+        deathCause = deathCause,
+        killerServerId = killerServerId,
+        killerClientId = killerClientId,
+        weapon = weapon?.name or "hand"
+    }
+    if Config.DisplayKillfeed then
+        TriggerServerEvent('SY_Bog:onPlayerDead', data)
+    end
+end
+
+RegisterNetEvent('SY_Bog:ShowKillfeed')
+AddEventHandler('SY_Bog:ShowKillfeed', function(data)
+    _victim = data.victim
+    _killer = data.killerServerId
+    _weapon = data.weapon
+    SendNUIMessage({
+        action = "killfeed",
+        victim = _victim,
+        killer = _killer,
+        weapon = _weapon
+    })
 end)
 
 -- ████████╗██╗███╗   ███╗███████╗██████╗

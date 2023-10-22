@@ -34,10 +34,14 @@ server_scripts {
 files {
     'locales/*.json',
     'web/index.html',
-    'web/*.js',
+    'web/script.js',
+    'web/style.css',
+    'web/weapons/*.png'
 }
 
 dependencies {
+    'es_extended',
     'oxmysql',
     'ox_lib',
+
 }
