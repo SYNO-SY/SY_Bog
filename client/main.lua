@@ -186,7 +186,7 @@ function inside(self)
     if IsControlJustPressed(0, 38) then
         if lib.progressBar({
                 duration = Capturetime * 60000,
-                label = 'capturing ' .. self.name,
+                label = locale('capturing', self.name),
                 useWhileDead = false,
                 canCancel = true,
                 disable = {

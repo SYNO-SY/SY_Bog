@@ -2,5 +2,8 @@
     "Lua.diagnostics.globals": [
         "lib",
         "locale"
+    ],
+    "cSpell.words": [
+        "killfeed"
     ]
 }
