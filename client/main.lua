@@ -160,7 +160,6 @@ AddEventHandler('SY_Bog:client:startOuterZone', function(data)
 end)
 
 function CreateZone(data)
-    print(json.encode(data))
     OuterZone = lib.zones.poly({
         points = data.points,
         thickness = data.thickness,
