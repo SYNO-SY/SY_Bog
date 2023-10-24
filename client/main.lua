@@ -56,6 +56,9 @@ RegisterCommand('stopzone', function()
     if BogStarted then
         RemoveZones()
         BogStarted = false
+        zoneData = {}
+        -- Capturetime = 0 or nil
+        -- OuterZone, CaptureZone = nil, nil
     end
 end)
 
@@ -157,6 +160,7 @@ AddEventHandler('SY_Bog:client:startOuterZone', function(data)
 end)
 
 function CreateZone(data)
+    print(json.encode(data))
     OuterZone = lib.zones.poly({
         points = data.points,
         thickness = data.thickness,
@@ -328,4 +332,9 @@ AddEventHandler("SY_Bog:hideCountdown", function()
     SendNUIMessage({
         action = "hide"
     })
+end)
+
+
+RegisterNUICallback("hideCountdown", function()
+    TriggerServerEvent("SY_Bog:server:hideCountdown")
 end)

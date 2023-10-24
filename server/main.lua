@@ -40,6 +40,8 @@ end)
 
 RegisterServerEvent('SY_Bog:server:hideCountdown')
 AddEventHandler('SY_Bog:server:hideCountdown', function()
+    countdownActive = false
+    countdownTime = 0
     TriggerClientEvent("SY_Bog:hideCountdown", -1)
 end)
 

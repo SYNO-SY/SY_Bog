@@ -5,12 +5,12 @@ window.addEventListener("message", function (event) {
     countdownElement.innerText = event.data.time;
   } else if (event.data.action === "update") {
     countdownElement.innerText = event.data.time;
-    console.log(event.data.time);
     if (event.data.time === 0) {
       countdownElement.innerText = "FIGHT";
       countdownElement.style.color = "red";
       setTimeout(() => {
-        countdownElement.style.display = "none";
+        // countdownElement.style.display = "none";
+        sendNUI("hideCountdown");
       }, 2000);
     }
   } else if (event.data.action === "hide") {
@@ -38,4 +38,14 @@ function killfeed(killer, victim, weapon) {
       .addClass("animate__fadeOutRightBig");
     $(`.killfeed-container-${number}`).fadeOut("slow");
   }, 5000);
+}
+
+function sendNUI(event, data, cb = () => {}) {
+  fetch(`https://${GetParentResourceName()}/${event}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=UTF-8" },
+    body: JSON.stringify(data),
+  })
+    .then((resp) => resp.json())
+    .then((resp) => cb(resp));
 }
