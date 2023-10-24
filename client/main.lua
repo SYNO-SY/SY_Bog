@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-parameter
 ESX = exports["es_extended"]:getSharedObject()
 lib.locale()
 local BogStarted = false
@@ -62,6 +63,7 @@ function OpenMenu()
     local zoneNames = {}
     for k, v in pairs(Config.Zones) do
         table.insert(zoneData, v)
+
         table.insert(zoneNames, { value = v.name })
     end
 
