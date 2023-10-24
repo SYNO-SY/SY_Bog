@@ -247,7 +247,7 @@ function GiveReward()
 end
 
 function RemoveZones()
-    TriggerServerEvent("SY_Bog:startCountdown", 0)
+    TriggerServerEvent("SY_Bog:server:hideCountdown")
     TriggerServerEvent('SY_Bog:server:removeOuterZone')
 end
 
@@ -275,7 +275,7 @@ function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
         killerClientId = killerClientId,
         weapon = weapon?.name or "hand"
     }
-    local victimCoords = GetEntityCoords(PlayerId()) -- Get the coordinates of the victim (local player)
+    local victimCoords = GetEntityCoords(PlayerPedId()) -- Get the coordinates of the victim (local player)
     local isInsideOuterZone = OuterZone:contains(vec3(victimCoords.x, victimCoords.y, victimCoords.z))
 
     if isInsideOuterZone and Config.DisplayKillfeed then

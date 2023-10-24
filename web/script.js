@@ -5,12 +5,16 @@ window.addEventListener("message", function (event) {
     countdownElement.innerText = event.data.time;
   } else if (event.data.action === "update") {
     countdownElement.innerText = event.data.time;
+    console.log(event.data.time);
+    if (event.data.time === 0) {
+      countdownElement.innerText = "FIGHT";
+      countdownElement.style.color = "red";
+      setTimeout(() => {
+        countdownElement.style.display = "none";
+      }, 2000);
+    }
   } else if (event.data.action === "hide") {
-    countdownElement.innerText = "FIGHT";
-    countdownElement.style.color = "red";
-    setTimeout(() => {
-      countdownElement.style.display = "none";
-    }, 5000);
+    countdownElement.style.display = "none";
   } else if (event.data.action === "killfeed") {
     var killer = event.data.killer;
     var victim = event.data.victim;

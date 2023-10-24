@@ -34,10 +34,14 @@ AddEventHandler("SY_Bog:startCountdown", function(time)
         end
         countdownActive = false
         countdownTime = 0
-        TriggerClientEvent("SY_Bog:hideCountdown", -1)
+        -- TriggerClientEvent("SY_Bog:hideCountdown", -1)
     end)
 end)
 
+RegisterServerEvent('SY_Bog:server:hideCountdown')
+AddEventHandler('SY_Bog:server:hideCountdown', function()
+    TriggerClientEvent("SY_Bog:hideCountdown", -1)
+end)
 
 
 
