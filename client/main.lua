@@ -5,7 +5,7 @@ local zoneData = {}
 local Capturetime = 0 or nil
 local OuterZone, CaptureZone = nil, nil
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function(data) --ESX
     data.victim = source
     local victimcoords = data.victimCoords
     local playerPed = data.victim
@@ -265,7 +265,7 @@ function RespawnPed(ped, coords, heading)
 end
 
 function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
-    local weapon = ESX.GetWeaponFromHash(deathCause)
+    local weapon = ESX.GetWeaponFromHash(deathCause) ---ESX
     local data = {
         killedByPlayer = true,
         deathCause = deathCause,
@@ -273,9 +273,15 @@ function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
         killerClientId = killerClientId,
         weapon = weapon?.name or "hand"
     }
-    if Config.DisplayKillfeed then
+    local victimCoords = GetEntityCoords(PlayerId()) -- Get the coordinates of the victim (local player)
+    local isInsideOuterZone = OuterZone:contains(vec3(victimCoords.x, victimCoords.y, victimCoords.z))
+
+    if isInsideOuterZone and Config.DisplayKillfeed then
         TriggerServerEvent('SY_Bog:onPlayerDead', data)
     end
+    -- if Config.DisplayKillfeed then
+    --     TriggerServerEvent('SY_Bog:onPlayerDead', data)
+    -- end
 end
 
 RegisterNetEvent('SY_Bog:ShowKillfeed')

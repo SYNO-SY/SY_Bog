@@ -43,8 +43,8 @@ end)
 
 RegisterServerEvent('SY_Bog:onPlayerDead')
 AddEventHandler('SY_Bog:onPlayerDead', function(data)
-    local victim = ESX.GetPlayerFromId(source)
-    local killer = ESX.GetPlayerFromId(data.killerServerId) or victim
+    local victim = ESX.GetPlayerFromId(source)                        --ESX
+    local killer = ESX.GetPlayerFromId(data.killerServerId) or victim --ESX
     data.victim = victim.getName()
     data.killerServerId = killer.getName()
 
@@ -61,7 +61,7 @@ lib.callback.register('SY_Bog:server:getjobs', function()
     for _, v in pairs(Config.GangJobs) do
         if v then
             table.insert(jobs.input_table, { value = v })
-            isaJob = ESX.DoesJobExist(v, 0) or isaJob
+            isaJob = ESX.DoesJobExist(v, 0) or isaJob --ESX
         end
     end
     jobs.isaJob = isaJob
