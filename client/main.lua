@@ -1,4 +1,3 @@
----@diagnostic disable: missing-parameter
 ESX = exports["es_extended"]:getSharedObject()
 lib.locale()
 local BogStarted = false
