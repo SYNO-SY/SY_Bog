@@ -184,6 +184,12 @@ function startCaptureZone(data)
         onExit = onExit,
         debugColour = { r = 254, g = 150, b = 52 }
     })
+    ESX.Game.SpawnLocalObject(Config.Object_flag.objModel, data.capturezone, function(obj)
+        PlaceObjectOnGroundProperly(obj)
+        FreezeEntityPosition(obj, true)
+        SetEntityHeading(obj, 0)
+        spawnedObj = obj
+    end)
 end
 
 function inside(self)

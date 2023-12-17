@@ -4,7 +4,8 @@ Config.Timer = 10                                                  -- time in se
 Config.Respawn = true                                              -- if true then player will be spawned in the Config.Spawnlocation
 Config.Spawnlocation = { x = 93.6761, y = 3437.3171, z = 39.7003 } -- player will spawn when dead in the given location
 Config.DisplayKillfeed = true                                      -- if true killfeed will be shown
-Config.GangJobs = { "ballas", "vagos" }                            -- List all jobs that are able to contest for Bog
+Config.GangJobs = { "ambulance", "police" }                        -- List all jobs that are able to contest for Bog
+Config.Object_flag = { objModel = 'prop_golfflag', targetModel = prop_golfflag }
 
 
 Config.Zones = {
