@@ -6,6 +6,7 @@ Config.Spawnlocation = { x = 93.6761, y = 3437.3171, z = 39.7003 } -- player wil
 Config.DisplayKillfeed = true                                      -- if true killfeed will be shown
 Config.GangJobs = { "ambulance", "police" }                        -- List all jobs that are able to contest for Bog
 Config.Object_flag = { objModel = 'prop_golfflag', targetModel = prop_golfflag }
+Config.Announcement = true                                         -- if true the announcement will be triggered only if announcement script is there in your server (https://github.com/SYNO-SY/SY_Announcement)
 
 
 Config.Zones = {

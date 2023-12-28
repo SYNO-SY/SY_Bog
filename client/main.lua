@@ -336,6 +336,7 @@ AddEventHandler("SY_Bog:hideCountdown", function()
     SendNUIMessage({
         action = "hide"
     })
+    
 end)
 
 

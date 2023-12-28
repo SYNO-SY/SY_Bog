@@ -43,6 +43,9 @@ AddEventHandler('SY_Bog:server:hideCountdown', function()
     countdownActive = false
     countdownTime = 0
     TriggerClientEvent("SY_Bog:hideCountdown", -1)
+    if Config.Announcement then
+        TriggerClientEvent('sy_announce:display', -1, 'ANNOUNCEMENT', "Bog Started", 10000)
+    end
 end)
 
 
