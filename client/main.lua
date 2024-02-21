@@ -251,7 +251,12 @@ function onExit(self)
 end
 
 function GiveReward()
-    RemoveZones()
+    if BogStarted then
+        lib.hideTextUI()
+        RemoveZones()
+        BogStarted = false
+        zoneData = {}
+    end
 end
 
 function RemoveZones()
@@ -336,7 +341,6 @@ AddEventHandler("SY_Bog:hideCountdown", function()
     SendNUIMessage({
         action = "hide"
     })
-    
 end)
 
 
